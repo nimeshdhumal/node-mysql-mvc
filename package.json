@@ -1,0 +1,27 @@
+{
+  "name": "mysql-mvc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nimeshdhumal/node-mysql-mvc.git"
+  },
+  "keywords": [],
+  "author": "Nimesh Dhumal",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/nimeshdhumal/node-mysql-mvc/issues"
+  },
+  "homepage": "https://github.com/nimeshdhumal/node-mysql-mvc#readme",
+  "dependencies": {
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.2",
+    "nodemon": "^3.1.10"
+  }
+}

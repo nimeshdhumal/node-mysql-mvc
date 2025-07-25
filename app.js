@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const MYSQL_CONNECTION = require('./src/config/db');
 const app = express();
 
 app.use(express.json());// Middleware to parse JSON body
@@ -11,4 +12,5 @@ app.use('/', (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Server is running on PORT:${PORT}`);
+    MYSQL_CONNECTION.dbConnect();
 });

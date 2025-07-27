@@ -1,16 +1,12 @@
 require('dotenv').config();
 const express = require('express');
-const MYSQL_CONNECTION = require('./src/config/db');
+const productRoutes = require('./src/routes/productRoutes');
 const app = express();
-
 app.use(express.json());// Middleware to parse JSON body
 const PORT = process.env.PORT;
 
-app.use('/', (req, res) => {
-    res.send('Welcome to the Product Management Project');
-});
+app.use('/api/products', productRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on PORT:${PORT}`);
-    MYSQL_CONNECTION.dbConnect();
 });

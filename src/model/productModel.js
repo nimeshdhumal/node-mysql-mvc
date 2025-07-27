@@ -2,12 +2,12 @@ const db = require('../config/db');
 
 const Product = {
     getAll: async () => {
-        const [rows] = await db.query('SELECT * FROM products');
+        const [rows] = await db.query('SELECT products.*,categories.category_name FROM products INNER JOIN categories ON products.category_id = categories.id;');
         return rows;
     },
 
     getById: async (id) => {
-        const [rows] = await db.query('SELECT * FROM products WHERE id = ?', [id]);
+        const [rows] = await db.query('SELECT products.*,categories.category_name FROM products INNER JOIN categories ON products.category_id = categories.id WHERE products.id = ?', [id]);
         return rows[0];
     },
 

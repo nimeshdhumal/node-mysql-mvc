@@ -1,10 +1,13 @@
-exports.errorHandler = (err, req, res, next) => {
-    console.error(err.stack); // Log error stack for debugging
+const errorHandler = (err, req, res, next) => {
+    
     const statusCode = err.statusCode || 500;
+    const message = err.message || 'Something went wrong!';
+    const error = err.errors
+
     res.status(statusCode).json({
-        message: err.message || 'Something went wrong!',
-        // In production, you might not want to send the stack trace
-        // error: process.env.NODE_ENV === 'production' ? {} : err.stack
+        success: false,
+        message: message,
+        errors: error
     });
 };
 
@@ -28,4 +31,4 @@ class BadRequestError extends CustomError {
     }
 }
 
-module.exports = { CustomError, NotFoundError, BadRequestError };
+module.exports = { errorHandler, CustomError, NotFoundError, BadRequestError };

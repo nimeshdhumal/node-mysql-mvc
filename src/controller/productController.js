@@ -1,13 +1,8 @@
-const { validationResult, body } = require('express-validator');
+const { validationResult } = require('express-validator');
 const productModel = require('../model/productModel');
 const { NotFoundError, BadRequestError } = require('../utils/errorHandler');
 
-exports.validateProduct = [
-    body('name').notEmpty().withMessage('Product name is required'),
-    body('price').isFloat({ gt: 0 }).withMessage('Price must be a positive'),
-    body('stock_quantity').isInt({ min: 0 }).withMessage('Stock quantity must be a non-negative integer')
-];
-
+/* Get the all the products details */
 exports.getProducts = async (req, res) => {
     try {
         const products = await productModel.getAll();
@@ -17,13 +12,13 @@ exports.getProducts = async (req, res) => {
     }
 };
 
+/* Get the products details by ID */
 exports.getProductById = async (req, res) => {
     try {
         const product = await productModel.getById(req.params.id);
         if (product) {
             res.json(product);
         } else {
-            //res.status(404).json({ message: 'Product not found' });
             throw new NotFoundError('Product not found');
         }
     } catch (error) {
@@ -31,12 +26,16 @@ exports.getProductById = async (req, res) => {
     }
 };
 
-exports.createProduct = async (req, res) => {
+/* Insert the data into the DB */
+exports.createProduct = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        //return res.status(400).json({ errors: errors.array() });
-        throw new BadRequestError('Field should not be a NULL');
+        const badRequest = new BadRequestError('Field should not be a NULL');
+        badRequest.status = 400;
+        badRequest.errors = errors.array();
+        return next(badRequest);
     }
+
     try {
         const newProductId = await productModel.create(req.body);
         res.status(201).json({ message: 'Product created successfully', id: newProductId });
@@ -45,12 +44,16 @@ exports.createProduct = async (req, res) => {
     }
 };
 
-exports.updateProduct = async (req, res) => {
+/* Update the data which is saved into DB */
+exports.updateProduct = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        //return res.status(400).json({ errors: errors.array() });
-        throw new BadRequestError('Field should not be a NULL');
+        const badRequest = new BadRequestError('Field should not be a NULL');
+        badRequest.status = 400;
+        badRequest.errors = errors.array();
+        return next(badRequest);
     }
+
     try {
         const affectedRows = await productModel.update(req.params.id, req.body);
         if (affectedRows > 0) {
@@ -63,6 +66,7 @@ exports.updateProduct = async (req, res) => {
     }
 };
 
+/* Delete the products by there ID */
 exports.deleteProduct = async (req, res) => {
     try {
         const affectedRows = await productModel.delete(req.params.id);

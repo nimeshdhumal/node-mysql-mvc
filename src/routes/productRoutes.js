@@ -1,8 +1,8 @@
 const { body } = require('express-validator');
 const express = require('express');
 const router = express.Router();
-const validation = require('../controller/productController');
 const productController = require('../controller/productController');
+const { verifyToken, authorizeRoles } = require('../utils/authMiddleware');
 
 /* Valdiation perform on routes */
 const validationFields = [body('name').notEmpty().withMessage('Product name is required'),
@@ -11,9 +11,9 @@ body('stock_quantity').isInt({ min: 0 }).withMessage('Stock quantity must be a n
 
 /* All Routes are here with validation */
 router.get('/', productController.getProducts);
-router.post('/save', validationFields, productController.createProduct);
+router.post('/save', verifyToken, authorizeRoles('admin'), validationFields, productController.createProduct);
 router.get('/:id', productController.getProductById);
-router.put('/:id', validationFields, productController.updateProduct);
-router.delete('/:id', productController.deleteProduct);
+router.put('/:id', verifyToken, authorizeRoles('admin'), validationFields, productController.updateProduct);
+router.delete('/:id', verifyToken, authorizeRoles('admin'), productController.deleteProduct);
 
 module.exports = router;

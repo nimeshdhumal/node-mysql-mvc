@@ -1,12 +1,14 @@
 require('dotenv').config();
 const express = require('express');
 const productRoutes = require('./src/routes/productRoutes');
+const authRoutes = require('./src/routes/authRoutes');
 const middle = require('./src/utils/errorHandler');
 const app = express();
 const PORT = process.env.PORT;
 
 app.use(express.json());// Middleware to parse JSON body
-app.use('/api/products', productRoutes);//Routes
+app.use('/api/products', productRoutes);//Products-Routes;;;
+app.use('api/auth/',authRoutes);//Auth-Routes;;;
 
 //Basic error handling middleware (will be improved later)
 app.use((req, res, next) => {

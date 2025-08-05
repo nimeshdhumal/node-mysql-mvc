@@ -3,6 +3,11 @@ const { CustomError } = require('./errorHandler');
 
 exports.verifyToken = (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1]; // Bearer TOKEN
+
+    if (!token) {
+        return next(new CustomError('No token provided', 401));
+    }
+
     try {
         if (!token) {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);

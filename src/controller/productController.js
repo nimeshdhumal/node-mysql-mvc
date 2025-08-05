@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 const productModel = require('../model/productModel');
-const { NotFoundError, BadRequestError } = require('../utils/errorHandler');
+const { NotFoundError, BadRequestError } = require('../middleware/errorHandler');
 
 /* Get the all the products details */
 exports.getProducts = async (req, res) => {

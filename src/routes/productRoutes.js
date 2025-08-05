@@ -2,7 +2,7 @@ const { body } = require('express-validator');
 const express = require('express');
 const router = express.Router();
 const productController = require('../controller/productController');
-const { verifyToken, authorizeRoles } = require('../utils/authMiddleware');
+const { verifyToken, authorizeRoles } = require('../middleware/authMiddleware');
 
 /* Valdiation perform on routes */
 const validationFields = [body('name').notEmpty().withMessage('Product name is required'),

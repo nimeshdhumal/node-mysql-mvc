@@ -1,6 +1,6 @@
 const express = require('express');
 const { body } = require('express-validator');
-const router = express.Router();
+const authRoutes = express.Router();
 const userController = require('../controller/authController');
 
 const validationFields = [
@@ -8,4 +8,6 @@ const validationFields = [
     body('password').notEmpty()
 ];
 
-router.post('/register',validationFields ,userController.registerUser);
+authRoutes.post('/register',validationFields ,userController.registerUser);
+
+module.exports = { authRoutes }

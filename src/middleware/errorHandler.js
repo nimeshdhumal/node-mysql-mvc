@@ -1,5 +1,4 @@
-const errorHandler = (err, req, res, next) => {
-    
+exports.errorHandler = (err, req, res, next) => {
     const statusCode = err.statusCode || 500;
     const message = err.message || 'Something went wrong!';
     const error = err.errors
@@ -31,4 +30,4 @@ class BadRequestError extends CustomError {
     }
 }
 
-module.exports = { errorHandler, CustomError, NotFoundError, BadRequestError };
+module.exports = { CustomError, NotFoundError, BadRequestError };
